@@ -33,21 +33,18 @@ public class TrayIconService : IDisposable
         };
         Console.WriteLine("✅ NotifyIcon created and made visible");
 
-        // Create context menu with icons
+        // Create context menu
         var contextMenu = new ContextMenuStrip();
 
-        // "View your DVR Lab" menu item with globe icon
-        var viewDvrItem = new ToolStripMenuItem("🌐 View your DVR Lab", null, (s, e) => OpenBrowser());
+        var viewDvrItem = new ToolStripMenuItem("View your DVR Lab", null, (s, e) => OpenBrowser());
         contextMenu.Items.Add(viewDvrItem);
 
-        // "View app output" menu item with document icon
-        var viewOutputItem = new ToolStripMenuItem("📄 View app output", null, (s, e) => ShowOutputWindow());
+        var viewOutputItem = new ToolStripMenuItem("View app output", null, (s, e) => ShowOutputWindow());
         contextMenu.Items.Add(viewOutputItem);
 
         contextMenu.Items.Add("-"); // Separator
 
-        // "Exit" menu item with X icon
-        var exitItem = new ToolStripMenuItem("❌ Exit", null, (s, e) => Exit());
+        var exitItem = new ToolStripMenuItem("Exit", null, (s, e) => Exit());
         contextMenu.Items.Add(exitItem);
 
         _notifyIcon.ContextMenuStrip = contextMenu;

@@ -6,29 +6,33 @@ A modern, lightweight DVR (Digital Video Recorder) web application built with AS
 
 ### 🎥 Video Streaming
 - **Low-Latency HLS Streaming**: Converts RTSP streams to HLS with minimal buffering (1-second segments, 3-second buffer)
-- **Multi-Channel Support**: Configure and view multiple camera channels
-- **Channel Switching**: Easily switch between configured camera feeds
-- **Auto-Timeout**: Automatically stops streams after a configurable timeout period to save resources
+- **Multi-Channel Support**: Configure and view multiple camera channels (up to 8 channels)
+- **Channel Switching**: Easily switch between configured camera feeds with automatic stream cleanup
+- **Auto-Timeout**: Automatically stops streams after a configurable timeout period to save resources (default: 5 minutes)
+- **Timestamp Fix**: Handles camera timestamp inconsistencies with wallclock timestamps and audio resampling
 
 ### 🖥️ System Tray Integration
 - **Background Operation**: Runs silently in the Windows system tray
 - **Quick Access**: Double-click the tray icon to open the web interface
-- **Application Output Viewer**: View live console output and logs in a convenient window
+- **Application Output Viewer**: View live console output and logs in a convenient window with auto-refresh
 - **Custom Icon Support**: Displays a custom icon in the system tray (place `dvr lab.ico` in the application directory)
-- **Easy Exit**: Right-click menu for quick access to features and exit
+- **Simple Menu**: Right-click menu with text-only options for quick access
 
 ### ⚙️ Configuration
-- **Fully Configurable RTSP Settings**: Configure your camera server details via `appsettings.json`
-- **Flexible URL Templates**: Customize RTSP URL format to match your camera system
-- **Named Channels**: Give friendly names to your camera channels
+- **Fully Configurable RTSP Settings**: Configure your camera server details via `appsettings.json` or web interface
+- **Flexible URL Templates**: Customize RTSP URL format to match your camera system with variable placeholders
+- **Named Channels**: Give friendly names to your camera channels for easy identification
 - **Adjustable Timeout**: Set how long streams stay active before auto-stopping
-- **Port Configuration**: Run on any port (default: 5000)
+- **Port Configuration**: Run on any port (default: 5000, configurable to any port or localhost only)
+- **Web-Based Settings Editor**: Change settings through the web interface and save to `appsettings.json`
 
 ### 🌐 Web Interface
-- **Responsive Design**: Clean, modern UI that works on desktop and mobile
-- **Settings Page**: Easily configure RTSP settings through the web interface
-- **Channel Selection**: Visual channel selector with custom names
-- **Real-time Updates**: Automatic stream refresh and status updates
+- **Clean Dark Theme**: Modern dark UI optimized for viewing video feeds
+- **Responsive Design**: Works on desktop and mobile browsers
+- **Settings Page**: Easily configure RTSP settings, channels, and timeouts through the web interface
+- **Channel Dropdown**: Visual channel selector with custom names
+- **Real-time Status**: Live status indicator showing streaming state and remaining time
+- **Immediate Feedback**: Visual feedback when starting/stopping streams
 
 ## 🚀 Getting Started
 
@@ -164,6 +168,8 @@ The application uses optimized FFmpeg settings for minimal latency:
 - Ultra-fast encoding preset
 - Zero-latency tuning
 - TCP transport for reliability
+- Wallclock timestamps to fix camera timing issues
+- Audio resampling for synchronization
 
 ### File Structure
 ```
@@ -193,11 +199,29 @@ DVR Lab/
 - Verify FFmpeg is installed and accessible
 - Check RTSP credentials in `appsettings.json`
 - Ensure your camera/DVR is accessible on the network
-- Check the application output window for detailed errors
+- Check the application output window for detailed errors (right-click tray icon → "View app output")
+- Verify the RTSP URL template matches your camera's format
+
+### Video Appears Black or Frozen
+- Camera may have timestamp issues - the app includes fixes for this
+- Try stopping and restarting the stream
+- Check if the camera is streaming to other devices
+- Verify network bandwidth is sufficient
 
 ### High CPU Usage
 - Try increasing HLS segment time (edit FFmpeg args in `StreamManager.cs`)
 - Reduce video quality by adjusting FFmpeg encoding preset
+- Consider using a different preset like `fast` or `medium` instead of `ultrafast`
+
+### Settings Won't Save
+- Ensure the application has write permissions to `appsettings.json`
+- Restart the application after saving settings for changes to take effect
+- Check the application output for error messages
+
+### Tray Icon Not Showing
+- Ensure Windows is not hiding the icon in the overflow area
+- Check that `dvr lab.ico` is in the correct location (optional)
+- Application uses system default icon if custom icon is not found
 
 ## 📝 License
 
